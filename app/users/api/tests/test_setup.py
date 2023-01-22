@@ -4,10 +4,10 @@ from django.urls import reverse
 class TestSetUp(APITestCase):
 
     def setUp(self):
-        self.register_url = reverse('register')
-        self.login_url = reverse('login')
+        self.register_url = reverse('rest_register')
+        self.login_url = reverse('rest_login')
 
-        user_data = {
+        self.user_data = {
             'email': 'momotaun@student.wethinkcode.co.za',
             'password': 'P@55w0rd'
         }
