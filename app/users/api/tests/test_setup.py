@@ -9,7 +9,7 @@ class TestSetUp(APITestCase):
 
         self.user_data = {
             "email": "email@example.com",
-            "password": "P@55w0rd"
+            "password": "P@55w0rd",
         }
 
         return super().setUp()
