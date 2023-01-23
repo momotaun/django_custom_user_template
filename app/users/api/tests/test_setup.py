@@ -8,8 +8,8 @@ class TestSetUp(APITestCase):
         self.login_url = reverse('rest_login')
 
         self.user_data = {
-            'email': 'momotaun@student.wethinkcode.co.za',
-            'password': 'P@55w0rd'
+            "email": "email@example.com",
+            "password": "P@55w0rd"
         }
 
         return super().setUp()
