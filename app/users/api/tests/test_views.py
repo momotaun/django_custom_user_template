@@ -17,6 +17,6 @@ class TestViews(TestSetUp):
         self.assertEqual(res.status_code, 201)
 
     def test_user_not_permitted_without_verification(self):
-        res = self.client.post(self.login_url, 
-            self.user_data, format="json")
+        res = self.client.post(path=self.login_url, 
+            data=self.user_data, format="json")
         self.assertEqual(res.status_code, 401)

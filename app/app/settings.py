@@ -165,6 +165,20 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'moeketsimotaung1@gmail.com'
+EMAIL_HOST_PASSWORD = 'MightyThor01'
+EMAIL_PORT = 587
+
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+LOGIN_URL = "http://localhost:8000/users/login/"
+
+
+REST_USE_JWT = True
+JWT_AUTHCOOKIE = 'app-auth'
+
 
 # Rest Framework
 REST_FRAMEWORK = {
@@ -173,7 +187,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
     ], 
     'DEFAULT_PERMISSION_CLASSES': [

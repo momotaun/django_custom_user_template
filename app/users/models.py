@@ -44,7 +44,7 @@ class UserManager(BaseUserManager):
         
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     username = None
     first_name = None
     last_name = None
@@ -52,6 +52,7 @@ class User(AbstractBaseUser):
     is_verified = models.BooleanField(verbose_name=("Verified"), default=False)
     is_active = models.BooleanField(verbose_name=("Active"), default=False)
     is_staff = models.BooleanField(verbose_name=("Staff"), default=False)
+    is_superuser = models.BooleanField(verbose_name=("Superuser"), default=False)
     created_at = models.DateTimeField(verbose_name=("Created at"), auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name=("Updated at"), auto_now=True, auto_now_add=False)
 

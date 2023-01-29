@@ -1,5 +1,7 @@
 from django.db import transaction
-from rest_framework import serializers
+from django.contrib.auth import authenticate
+from django.core.exceptions import ObjectDoesNotExist
+from rest_framework import serializers, exceptions
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 from dj_rest_auth.registration.serializers import RegisterSerializer
@@ -31,3 +33,31 @@ class UserRegistrationSerializer(RegisterSerializer):
 
 class UserLoginSerializer(LoginSerializer):
     username = None
+
+    def authenticate(self, **options):
+        return authenticate(self.context["request"], **options)
+
+    def validate(self, attrs):
+        email = attrs.get("email")
+        # ip_address = get_client_ip(self.context["request"])[0]
+        password = attrs.get("password")
+        if email and password:
+            '''Check if IP address belongs to account with given email address'''
+            try:
+                if User.objects.get(email=email):
+                    user = authenticate(
+                    email=email,
+                    password=password,
+                    )
+                if not user:
+                    msg = "Invalid credentials.user"
+                    raise serializers.ValidationError(msg, code="authorization")      
+            except ObjectDoesNotExist:
+                msg = "Invalid credentials.exception"
+                raise serializers.ValidationError(msg, code="authorization")
+        else:
+            msg = "No email provided."
+            raise exceptions.ValidationError(msg)
+        attrs["user"] = user
+
+        return attrs

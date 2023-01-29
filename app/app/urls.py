@@ -21,11 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Third party Urls
-    path('accounts/', include('allauth.urls')),
-    path('auth/', include('dj_rest_auth.urls')),
-    path('auth/register/', include('dj_rest_auth.registration.urls'), name="register"),
-    path('auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
-
+    
     # Custom Urls
-    # path('users/api/', include('users.api.urls')),
+    path('auth/api/', include('users.api.urls')),
 ]
