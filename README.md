@@ -54,6 +54,13 @@ docker-compose build
 docker-compose up
 ```
 
+  7. Migrate custom models
+ 
+```sh
+docker-compose run app sh -c "python manage.py makemigrations"
+docker-compose run app sh -c "python manage.py migrate"
+```
+
 ## Usage
 
 ## Roadmap
