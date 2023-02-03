@@ -23,5 +23,5 @@ urlpatterns = [
     # Third party Urls
     
     # Custom Urls
-    path('auth/api/', include('users.api.urls')),
+    path('api/auth/', include('users.api.urls')),
 ]
