@@ -34,9 +34,9 @@ class TestViews(APITestCase):
             "email":"email@example.com",
             "password":"P@55w0rd"
         }
-        reg_res = self.client.post('/auth/api/dj-rest-auth/registration/',
+        reg_res = self.client.post('api/auth/dj-rest-auth/registration/',
             register_data, format='json')
-        res = self.client.post('/auth/api/dj-rest-auth/login/', 
+        res = self.client.post('api/auth/dj-rest-auth/login/', 
             login_data, format="json")
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
