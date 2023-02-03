@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # Third party libraries
     'rest_framework',
@@ -85,6 +86,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -102,7 +106,8 @@ DATABASES = {
         'HOST': os.environ.get('DB_HOST'),
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD')
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'PORT': os.environ.get('DB_PORT')
     }
 }
 
@@ -149,6 +154,32 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# Custom settings
+
+# User
+AUTH_USER_MODEL = 'users.User'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'moeketsimotaung1@gmail.com'
+EMAIL_HOST_PASSWORD = 'MightyThor01'
+EMAIL_PORT = 587
+
+LOGIN_URL = "http://localhost:8000/users/login/"
+
+
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'app-auth'
+
+
 # Rest Framework
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -156,7 +187,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
     ], 
     'DEFAULT_PERMISSION_CLASSES': [
@@ -165,7 +196,20 @@ REST_FRAMEWORK = {
 }
 
 
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+
 REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'users.api.serializer.UserRegistrationSerializer',
-    # 'USER_DETAILS_SERIALIZER': 'accounts.api.serializer.UserDetailSerializer'
+    'REGISTER_SERIALIZER': 'users.api.serializer.UserRegistrationSerializer'
+}
+
+
+REST_AUTH_SERIALIZERS = {    
+    'LOGIN_SERIALIZER': 'users.api.serializer.UserLoginSerializer'
 }
