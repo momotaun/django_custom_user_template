@@ -17,10 +17,7 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError('Valid email must be set.')
         email = self.normalize_email(email)
-        user = self.model(
-            email=email,
-            **extra_fields
-            )
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save()
         return user
@@ -30,15 +27,14 @@ class UserManager(BaseUserManager):
         email,
         password,
         **extra_fields):
-        extra_fields.setdefault('is_verified', True)
         extra_fields.setdefault('is_active', True)
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
         if extra_fields.get('is_staff') is not True:
-            raise ValueError(_('Superuser must have is_staff=True'))
+            raise ValueError('Superuser must have is_staff=True')
         if extra_fields.get('is_superuser') is not True:
-            raise ValueError(_('Superuser must have is_superuser=True'))
+            raise ValueError('Superuser must have is_superuser=True')
 
         self.create_user(email, password, **extra_fields)
         
@@ -46,10 +42,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     username = None
-    first_name = None
-    last_name = None
     email = models.EmailField(verbose_name=("E-mail"), unique=True, max_length=254)
-    is_verified = models.BooleanField(verbose_name=("Verified"), default=False)
     is_active = models.BooleanField(verbose_name=("Active"), default=False)
     is_staff = models.BooleanField(verbose_name=("Staff"), default=False)
     is_superuser = models.BooleanField(verbose_name=("Superuser"), default=False)
