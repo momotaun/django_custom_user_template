@@ -21,8 +21,11 @@ RUN python -m venv /env && \
     mkdir -p /vol/web/static && \
     mkdir -p /vol/web/media && \
     chown -R app:app /vol && \
-    chmod -R 755 /vol 
+    chmod -R 755 /vol && \
+    chmod -R +x /scripts
 
 ENV PATH="/env/bin:$PATH"
 
 USER app
+
+CMD ["/scripts/entrypoint.sh"]
